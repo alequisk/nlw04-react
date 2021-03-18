@@ -1,0 +1,33 @@
+.container-form {
+  max-width: 500px;
+  /* background-color: black; */
+  display: flex;
+  flex-direction: column;
+}
+
+.container-form header {
+  margin-bottom: 100px;
+}
+
+.container-form header img {
+  height: 70px;
+}
+
+.container-form main > p {
+  color: var(--white);
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 2.5rem;
+}
+
+.instructions {
+  display: flex;
+  padding: 1rem;
+  align-items: center;
+}
+
+.instructions p {
+  color: var(--text-highlight);
+  max-width: 150px;
+  margin-left: 1rem;
+}

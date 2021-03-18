@@ -20,7 +20,7 @@ let countdownTimeout: NodeJS.Timeout
 
 export function CountdownProvider({ children } : CountdownProviderProps) {
 
-  const DEFAULT_TIME_COUNTDOWN = 3
+  const DEFAULT_TIME_COUNTDOWN = 25 * 60
 
   const [time, setTime] = useState(DEFAULT_TIME_COUNTDOWN)
   const [isActive, setIsActive] = useState(false)

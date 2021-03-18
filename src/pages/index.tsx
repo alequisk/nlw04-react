@@ -1,66 +1,46 @@
-import Head from 'next/head'
-import { GetServerSideProps } from 'next'
-
-
-import { CompletedChallenges } from '../components/CompletedChallenges';
-import { Countdown } from '../components/Countdown';
-import { ExperienceBar } from '../components/ExperienceBar';
-import { Profile } from '../components/Profile';
-import { ChallengeBox } from '../components/ChallengeBox';
-
+import { useState } from 'react'
+import { useRouter } from 'next/router'
 import styles from '../styles/pages/Home.module.css'
-import { CountdownProvider } from '../contexts/CountdownContext';
-import { ChallengesProvider } from '../contexts/ChallengesContext';
 
-interface HomeProps {
-  level: number;
-  currentExperience: number;
-  challengesCompleted: number;
-}
+export default function Home() {
+  const router = useRouter()
+  const [gitUsername, setGitUsername] = useState('')
 
-export default function Home(props: HomeProps) {
+  function handleGitUsername(e) {
+    setGitUsername(e.target.value)
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    router.push('/app')
+  }
 
   return (
-    <ChallengesProvider
-      level={props.level}
-      currentExperience={props.currentExperience}
-      challengesCompleted={props.challengesCompleted}
-    >
-      <div className={styles.container}>
-        <Head>
-          <title>Início | move.it</title>
-        </Head>
-
-        <ExperienceBar />
-
-        <CountdownProvider>
-          <section>
-            <div>
-              <Profile />
-              <CompletedChallenges />
-              <Countdown />
-            </div>
-            
-            <div>
-              <ChallengeBox />
-            </div>
-          </section>
-        </CountdownProvider>
+    <div className={styles.container}>
+      <div className={styles.containerForm}>
+        <header>
+          <img src="/logo-full-white.svg" alt="Logo Move.it"/>
+        </header>
+        <div>
+          <p>Bem-vindo</p>
+          <div className={styles.instructions}>
+            <img src="/icons/github.png" alt="github icon"/>
+            <p>Faça login com seu Github para começar</p>
+          </div>
+          <form className={styles.inputUsername} onSubmit={handleSubmit}>
+            <input type="text" required onChange={handleGitUsername} placeholder="Digite seu username" />
+            { gitUsername.length == 0 ? (
+              <button disabled>
+                <img src="arrow.png" alt="sign in"/>
+              </button>
+            ) : (
+              <button type="submit" className={styles.activeButton}>
+                <img src="arrow.png" alt="sign in"/>
+              </button>
+            )}
+          </form>
+        </div>
       </div>
-    </ChallengesProvider>
+    </div>
   )
-}
-
-export const getServerSideProps : GetServerSideProps = async (ctx) => {
-  // call to api
-
-  const { level, currentExperience, challengesCompleted } = ctx.req.cookies
-
-  return {
-    props: {
-      level: Number(level),
-      currentExperience: Number(currentExperience),
-      challengesCompleted: Number(challengesCompleted)
-    }
-  }
 }
